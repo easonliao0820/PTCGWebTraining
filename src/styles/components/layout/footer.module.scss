@@ -1,0 +1,28 @@
+@use '../../base/extends';
+@use '../../base/animations';
+
+// 動畫（可重複使用）
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0px;
+  @extend %width_seting;
+  height: 30px;
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+  background-color: #e4d7b5;
+  @extend %fade_in_up;
+}

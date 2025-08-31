@@ -1,0 +1,91 @@
+@use '../base/extends';
+@use '../base/animations';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @extend %width_seting;
+  height: calc(100vh - 40px);
+  text-align: center;
+  background: linear-gradient(to top,
+      #5D473A,
+      #D4A373,
+      #F1EAE4);
+
+  animation: fadeInUp 1s ease-out;
+
+  .title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+
+    animation: fadeInUp 0.8s ease-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+
+    animation: fadeInUp 0.8s ease-out;
+    animation-delay: 0.4s;
+    animation-fill-mode: both;
+  }
+
+  .functionArea {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3%;
+
+    .linkbutton {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      gap: 10px;
+      padding: 30px 3%;
+      border: none;
+      border-radius: 20px;
+      color: white;
+      font-size: 18px;
+      text-decoration: none;
+
+      cursor: pointer;
+      animation: fadeInUp 0.8s ease-out;
+      animation-delay: 0.6s;
+      animation-fill-mode: both;
+    }
+
+    .masterball {
+      transition: background-color 0.3s;
+      background-color: #874fff90;
+
+      &:hover {
+        background-color: #874fff;
+      }
+    }
+
+    .premierball {
+      transition: background-color 0.3s;
+      background-color: #adadad90;
+
+      &:hover {
+        background-color: #adadad;
+      }
+    }
+
+    .pokeball {
+      transition: background-color 0.3s;
+      background-color: #f2482290;
+
+      &:hover {
+        background-color: #F24822;
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@use '../../base/extends';
+@use '../../base/animations';
+@import '../../base/variables';
+@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+
+.container {
+  @extend %page_setting;
+
+  h1 {
+    text-align: center;
+    padding-bottom: 10px;
+    @extend %page_title_setting;
+  }
+}
+
+.search {
+  padding: 0.5rem 1rem;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  gap: 1.5rem;
+
+  article {
+    height: 74vh;
+
+    h2 {
+      padding-bottom: 10px;
+    }
+
+    .cardList,
+    .deckList {
+      display: grid;
+      gap: 1rem;
+      flex: 1;
+      background: #fff;
+      border: 1px solid #d4a373;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 90%;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+    .cardList{
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(3,1fr);
+    }
+    .deckList{
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5,1fr);
+    }
+  }
+}
