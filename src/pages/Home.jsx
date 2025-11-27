@@ -15,23 +15,23 @@ export default function Home() {
       <div className={styles.container}>
         <img src={bannerImage} alt={'turtwig'} width={400} />
         <h1 className={styles.title}>歡迎來到 PTCG 練習站</h1>
-        <p className={styles.subtitle}>!!你和朋友是為了贏得PTCG比賽而來徹夜練習的吧!!!</p>
+        <p className={styles.subtitle}>!!!方便你尋找你心中最佳的夥伴!!!</p>
         <div className={styles.functionArea}>
-          <Link to="/deck-builder" className={`${styles.linkbutton} ${styles.masterball}`}>
+          <Link to="/card-search" className={`${styles.linkbutton} ${styles.masterball}`}>
             <img src={masterball} alt={'masterball'} width={50} />
-            創建房間
+            卡牌一覽
+          </Link>
+          <Link to="/deck-builder" className={`${styles.linkbutton} ${styles.pokeball}`}>
+            <img src={pokeball} alt={'pokeball'} width={50} />
+            卡牌搜尋
           </Link>
           <Link to="/deck-manager" className={`${styles.linkbutton} ${styles.premierball}`}>
             <img src={premierball} alt={'premierball'} width={50} />
-            牌組管理
-          </Link>
-          <Link to="/deck-builder" className={`${styles.linkbutton} ${styles.pokeball}`}>
-            <img src={pokeball} alt={'pokeball'} width={50}/>
-            使用教學
+            清單管理
           </Link>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   )
 }

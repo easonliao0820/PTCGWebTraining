@@ -1,6 +1,6 @@
 @use '../../base/extends';
 @use '../../base/animations';
-@import '../../base/variables';
+@use '../../base/variables';
 @import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
 
 .container {
@@ -13,12 +13,17 @@
   }
 }
 
-.search {
-  padding: 0.5rem 1rem;
-  margin-bottom: 10px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.inputArea {
+  display: flex;
+  gap: 20px;
+
+  .search {
+    padding: 0.5rem 1rem;
+    margin-bottom: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
 }
 
 .layout {
@@ -46,13 +51,15 @@
       max-height: 90%;
       overflow-y: auto;
     }
-    .cardList{
+
+    .cardList {
       grid-template-columns: repeat(6, 1fr);
-      grid-template-rows: repeat(3,1fr);
+      grid-auto-rows: 230px;
     }
-    .deckList{
+
+    .deckList {
       grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5,1fr);
+      grid-template-rows: repeat(5, 1fr);
     }
   }
 }

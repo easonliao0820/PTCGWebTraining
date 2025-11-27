@@ -1,4 +1,3 @@
-import cardtest from '@/assets/images/cards/M1L001.png';
 import styles from '@/styles/components/common/CardItem.module.scss';
 
 export default function AddCardItem({ card, onAdd }) {

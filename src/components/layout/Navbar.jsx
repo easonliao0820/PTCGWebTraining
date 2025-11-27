@@ -14,7 +14,7 @@ export default function Navbar() {
       </Link>
       <ul className={styles.menu}>
         <li><Link className={styles.link}>首頁</Link></li>
-        <li><Link className={styles.link}>卡組</Link></li>
+        <li><Link className={styles.link}>清單</Link></li>
         <li><Link className={styles.link}>關於</Link></li>
       </ul>
     </nav>

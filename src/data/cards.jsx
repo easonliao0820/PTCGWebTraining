@@ -54,5 +54,53 @@ export const cardData = [
   {
     "name": "妙蛙種子",
     "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
+  },
+  {
+    "name": "妙蛙種子",
+    "image": "/assets/cards/bulbasaur.png"
   }
 ]
