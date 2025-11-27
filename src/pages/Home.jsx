@@ -17,11 +17,11 @@ export default function Home() {
         <h1 className={styles.title}>歡迎來到 PTCG 練習站</h1>
         <p className={styles.subtitle}>!!!方便你尋找你心中最佳的夥伴!!!</p>
         <div className={styles.functionArea}>
-          <Link to="/card-search" className={`${styles.linkbutton} ${styles.masterball}`}>
+          <Link to="/card-search/collection" className={`${styles.linkbutton} ${styles.masterball}`}>
             <img src={masterball} alt={'masterball'} width={50} />
             卡牌一覽
           </Link>
-          <Link to="/deck-builder" className={`${styles.linkbutton} ${styles.pokeball}`}>
+          <Link to="/card-search" className={`${styles.linkbutton} ${styles.pokeball}`}>
             <img src={pokeball} alt={'pokeball'} width={50} />
             卡牌搜尋
           </Link>

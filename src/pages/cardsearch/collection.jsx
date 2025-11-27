@@ -52,7 +52,7 @@ export default function CardSearch() {
           {collectionData.map((card, idx) => (
             <Link
               key={idx}
-              to={`/card-search/${card.collectionId}`}
+              to={`/card-search/collection/${card.collectionId}`}
               className={styles.collection}
             >
               {card.imgPath ? (
