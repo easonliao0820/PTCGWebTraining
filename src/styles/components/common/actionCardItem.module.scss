@@ -17,14 +17,39 @@
     }
 
     .addimg {
-        height: 75%;
+        height: 70%;
         width: auto;
         border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .removeimg {
+        height: 100%;
+        width: auto;
+        border-radius: 4px;
+        margin-bottom: 8px;
     }
 
     p {
         font-size: 14px;
         font-weight: 500;
+        margin: 4px 0;
         color: #333;
+    }
+
+    .button {
+        margin-top: 4px;
+        padding: 4px 8px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #388E3C;
+        }
     }
 }

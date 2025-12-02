@@ -48,13 +48,17 @@ export default function CardSearch() {
           <button className={styles.searchButton}>搜尋</button>
         </div>
 
-        <div className={styles.grid}>
+        <div className={styles.collectionGrid}>
           {collectionData.map((card, idx) => (
             <Link
               key={idx}
               to={`/card-search/collection/${card.collectionId}`}
               className={styles.collection}
             >
+              <div className={styles.cardHeader}>
+                <p className={styles.cardTitle}>{card.sales}</p>
+                <p className={styles.cardType}>{card.outDate}</p>
+              </div>
               {card.imgPath ? (
                 <img src={card.imgPath} alt={card.name} />
               ) : (
@@ -63,7 +67,6 @@ export default function CardSearch() {
 
               <div className={styles.cardFooter}>
                 <p className={styles.cardTitle}>{card.name}</p>
-                <p className={styles.cardType}>{card.series}</p>
               </div>
             </Link>
           ))}

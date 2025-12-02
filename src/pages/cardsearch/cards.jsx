@@ -16,7 +16,7 @@ export default function CardSearch() {
     <>
       <Navbar />
       <div className={styles.container}>
-        <h1>Collection Search</h1>
+        <h1>Collection Card Filer</h1>
 
         <div className={styles.controls}>
           <input
@@ -63,9 +63,13 @@ export default function CardSearch() {
           <button className={styles.searchButton}>搜尋</button>
         </div>
 
-        <div className={styles.grid}>
+        <div className={styles.collectionGrid}>
           {collectionData.map((card, idx) => (
             <div key={idx} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <p className={styles.cardTitle}>{card.name}</p>
+                <p className={styles.cardType}>{card.series}</p>
+              </div>
               {card.imgPath ? (
                 <img src={`${card.imgPath}`} alt={card.name} />
               ) : (

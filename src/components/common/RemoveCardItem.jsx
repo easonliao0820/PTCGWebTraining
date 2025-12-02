@@ -1,10 +1,9 @@
-import cardtest from '@/assets/images/cards/M1L001.png';
-import styles from '@/styles/components/common/CardItem.module.scss';
+import styles from '@/styles/components/common/actionCardItem.module.scss';
 
 export default function RemoveCardItem({ card, onRemove }) {
   return (
     <div className={styles.card} onClick={onRemove}>
-      <img src={cardtest} alt={card.name} />
+      <img className={styles.removeimg} assName src={card.image} alt={card.name} />
     </div>
   );
 }

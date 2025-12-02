@@ -57,7 +57,7 @@
 }
 
 
-.grid {
+.collectionGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
@@ -87,21 +87,28 @@
       width: 60%;
     }
   }
-}
 
+  .card img {
+    width: 100%;
+    height: 160px;
+    object-fit: contain;
+  }
 
+  .cardHeader {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+  }
 
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: contain;
-}
-
-.cardFooter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
+  .cardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1px;
+    font-size: 15px;
+  }
 }
 
 .modalOverlay {

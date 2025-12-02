@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 
 import styles from '@/styles/components/layout/navbar.module.scss';
-import NavbarImage from '@/assets/images/pikachu.png';
+import NavbarImage from '@img/pikachu.png';
 
 export default function Navbar() {
   return (

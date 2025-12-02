@@ -27,17 +27,15 @@
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: 1fr 0.5fr;
-  gap: 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 
   article {
     height: 74vh;
-
     h2 {
       padding-bottom: 10px;
     }
-
     .cardList,
     .deckList {
       display: grid;
@@ -48,18 +46,26 @@
       border-radius: 12px;
       padding: 20px;
       min-height: 90%;
-      max-height: 90%;
       overflow-y: auto;
     }
 
-    .cardList {
-      grid-template-columns: repeat(6, 1fr);
-      grid-auto-rows: 230px;
-    }
+  }
 
+  .card {
+    width: 69%;
+    .cardList {
+      display: grid;
+      grid-template-columns: repeat(5, 18%);
+      grid-auto-rows: 30vh;
+    }
+  }
+  .desk{
+    width: 30%;
     .deckList {
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5, 1fr);
+      min-width: 30%;
+      display: grid;
+      grid-template-columns: repeat(4, 20%);
+      grid-auto-rows: 13vh;
     }
   }
 }

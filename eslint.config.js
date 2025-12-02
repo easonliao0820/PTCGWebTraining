@@ -14,7 +14,11 @@ export default [
     settings: {
       'import/resolver': {
         alias: {
-          map: [['@', './src']],
+          map: [
+            ['@', './src'],
+            ['@public', './public'],
+            ['@img', './src/assets/images']
+          ],
           extensions: ['.js', '.jsx', '.ts', '.tsx'],
         },
       },
