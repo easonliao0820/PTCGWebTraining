@@ -13,6 +13,36 @@
   }
 }
 
+.AddDeck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+
+  .search {
+    padding: 0.5rem 1rem;
+    width: 75%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .save{
+    @extend %btn;
+    background-color: #4caf74;
+    &:hover {
+      background-color: #79be38;
+    }
+  }
+  .cancel{
+    @extend %btn;
+    background-color: #af814c;
+    &:hover {
+      background-color: #a04545;
+    }
+  }
+}
+
+
 .inputArea {
   display: flex;
   gap: 20px;
@@ -33,9 +63,11 @@
 
   article {
     height: 74vh;
+
     h2 {
       padding-bottom: 10px;
     }
+
     .cardList,
     .deckList {
       display: grid;
@@ -53,19 +85,26 @@
 
   .card {
     width: 69%;
+
     .cardList {
+      max-height: 60vh;
       display: grid;
       grid-template-columns: repeat(5, 18%);
       grid-auto-rows: 30vh;
+      overflow-y: scroll;
     }
   }
-  .desk{
+
+  .desk {
     width: 30%;
+
     .deckList {
       min-width: 30%;
+      max-height: 60vh;
       display: grid;
       grid-template-columns: repeat(4, 20%);
       grid-auto-rows: 13vh;
+      overflow-y: scroll;
     }
   }
 }

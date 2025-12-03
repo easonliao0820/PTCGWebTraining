@@ -24,3 +24,17 @@
     font-style: normal;
     color: #fcd34d;
 }
+%btn {
+  padding: 0.5rem 2rem;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+}

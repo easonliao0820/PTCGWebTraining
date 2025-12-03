@@ -38,11 +38,10 @@ export default function CardSearch() {
               </option>
             ))}
           </select>
-
           <select
             className={styles.search}
             value={rarity}
-            onChange={(e) => setRarity(e.target.value)}
+            onChange={(e) => setRarity(e.target.value)} F
           >
             {rarityData.map((r) => (
               <option key={r.key} value={r.key}>

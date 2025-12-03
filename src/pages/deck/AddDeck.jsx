@@ -8,7 +8,7 @@ import Footer from '@/components/layout/Footer';
 
 export default function DeckBuilder() {
   const [search, setSearch] = useState('');
-  const [deskName, setdDeskName] = useState('');
+  const [deckName, setdDeckName] = useState('');
   const [deck, setDeck] = useState([]);
   const [category, setCategory] = useState('所有類別');
   const [attribute, setAttribute] = useState('所有屬性');
@@ -38,6 +38,18 @@ export default function DeckBuilder() {
       <Navbar />
       <div className={styles.container}>
         <h1>Deck Builder</h1>
+         <div className={styles.AddDeck}>
+          <h4>新增的清單名稱 : </h4>
+          <input
+            type="text"
+            placeholder="Deck Name."
+            value={deckName}
+            onChange={(e) => setdDeckName(e.target.value)}
+            className={styles.search}
+          />
+          <button className={styles.save}>儲存</button>
+          <button className={styles.cancel}>取消</button>
+        </div>
         <div className={styles.inputArea}>
           <input
             type="text"
@@ -50,8 +62,8 @@ export default function DeckBuilder() {
           <input
             type="text"
             placeholder="Desk Name."
-            value={deskName}
-            onChange={(e) => setdDeskName(e.target.value)}
+            value={deckName}
+            onChange={(e) => setdDeckName(e.target.value)}
             className={styles.search}
           />
 

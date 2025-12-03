@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { cardData } from '@/data/cards';
+import { collectionData } from '@/data/collection';
 import styles from '@/styles/pages/cardsearch/allCardsSearch.module.scss';
 import CardItem from '@/components/common/CardItem';
 import Navbar from '@/components/layout/Navbar';
@@ -10,9 +11,11 @@ export default function DeckBuilder() {
   const [deskName, setdDeskName] = useState('');
   const [category, setCategory] = useState('所有類別');
   const [attribute, setAttribute] = useState('所有屬性');
+  const [collection, setCollection] = useState('所有彈數');
 
   const categories = ['所有類別', ...new Set(cardData.map(card => card.type || '未知'))];
   const attributes = ['所有屬性', ...new Set(cardData.map(card => card.attribute || '未知'))];
+  const collections = ['所有彈數', ...new Set(collectionData.map(card => card.name))];
 
   const filteredCards = cardData.filter(card =>
     card.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -25,6 +28,7 @@ export default function DeckBuilder() {
       <Navbar />
       <div className={styles.container}>
         <h1>Deck Builder</h1>
+       
         <div className={styles.inputArea}>
           <input
             type="text"
@@ -33,21 +37,21 @@ export default function DeckBuilder() {
             onChange={(e) => setSearch(e.target.value)}
             className={styles.search}
           />
-
-          <input
-            type="text"
-            placeholder="Desk Name."
-            value={deskName}
-            onChange={(e) => setdDeskName(e.target.value)}
-            className={styles.search}
-          />
-
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
             className={styles.search}
           >
             {categories.map((cat, idx) => (
+              <option key={idx} value={cat}>{cat}</option>
+            ))}
+          </select>
+          <select
+            value={collection}
+            onChange={e => setCollection(e.target.value)}
+            className={styles.search}
+          >
+            {collections.map((cat, idx) => (
               <option key={idx} value={cat}>{cat}</option>
             ))}
           </select>
