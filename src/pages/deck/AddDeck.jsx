@@ -59,14 +59,6 @@ export default function DeckBuilder() {
             className={styles.search}
           />
 
-          <input
-            type="text"
-            placeholder="Desk Name."
-            value={deckName}
-            onChange={(e) => setdDeckName(e.target.value)}
-            className={styles.search}
-          />
-
           <select
             value={category}
             onChange={e => setCategory(e.target.value)}
@@ -85,6 +77,7 @@ export default function DeckBuilder() {
               <option key={idx} value={attr}>{attr}</option>
             ))}
           </select>
+          <button className={styles.searchButton}>儲存</button>
         </div>
         <section className={styles.layout}>
           <article className={styles.card}>

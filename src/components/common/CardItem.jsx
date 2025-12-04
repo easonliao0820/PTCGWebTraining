@@ -1,9 +1,9 @@
 import styles from '@/styles/components/common/CardItem.module.scss';
 import { Link } from 'react-router-dom';
 
-export default function CardItem({ card, onAdd }) {
+export default function CardItem({ card,collectionId, onAdd }) {
   return (
-    <Link className={styles.card} onClick={onAdd}>
+    <Link to={`/card-search/collection/${collectionId}/${card.Id}`} className={styles.card} onClick={onAdd}>
       <img className={styles.addimg} src={`${card.image}`} alt={card.name}/>
       <p>{card.name}</p>
     </Link>

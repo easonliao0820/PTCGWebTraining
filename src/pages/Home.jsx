@@ -19,7 +19,7 @@ export default function Home() {
         <div className={styles.functionArea}>
           <Link to="/card-search/collection" className={`${styles.linkbutton} ${styles.masterball}`}>
             <img src={masterball} alt={'masterball'} width={50} />
-            卡牌搜尋
+            彈數搜尋
           </Link>
           <Link to="/card-search" className={`${styles.linkbutton} ${styles.pokeball}`}>
             <img src={pokeball} alt={'pokeball'} width={50} />

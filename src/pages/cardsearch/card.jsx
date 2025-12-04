@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useState } from 'react';
 import { cardData } from '@/data/cards';
 import { collectionData } from '@/data/collection';
