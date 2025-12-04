@@ -1,6 +1,6 @@
 @use '../../base/extends';
 @use '../../base/animations';
-@use '../../base/variables';
+@import '../../base/variables';
 @import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
 
 .container {
@@ -22,7 +22,7 @@
 
   .search {
     padding: 0.5rem 1rem;
-    width: 75%;
+    width: 65%;
     border: 1px solid #ccc;
     border-radius: 8px;
   }
@@ -45,14 +45,21 @@
 
 .inputArea {
   display: flex;
-  gap: 20px;
+  gap: 10px;
+  margin-bottom: 10px;
 
   .search {
     padding: 0.5rem 1rem;
-    margin-bottom: 10px;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 8px;
+  }
+  .searchButton{
+    @extend %btn;
+    background-color: $color-yellow;
+    &:hover {
+      background-color:  $hover-yellow;
+    }
   }
 }
 
