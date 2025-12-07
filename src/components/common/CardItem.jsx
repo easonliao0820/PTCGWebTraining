@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function CardItem({ card,collectionId, onAdd }) {
   return (
-    <Link to={`/card-search/collection/${collectionId}/${card.Id}`} className={styles.card} onClick={onAdd}>
+    <Link to={`/card-search/collection/${collectionId}/${card.id}`} className={styles.card} onClick={onAdd}>
       <img className={styles.addimg} src={`${card.image}`} alt={card.name}/>
       <p>{card.name}</p>
     </Link>

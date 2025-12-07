@@ -6,12 +6,16 @@ import DeckBuilder from '@/pages/deck/AddDeck';
 import CollectionSearch from '@/pages/cardsearch/collection';
 import CardSearchMain from '@/pages/cardsearch/index';
 import CardInfo from '@/pages/cardsearch/cardInfo';
+import Login from "@/pages/user/login";
+import Register from "@/pages/user/register";
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/game" element={<GameRoom />} />
         <Route path="/deck-manager" element={<DeckManager />} />
         <Route path="/deck-builder" element={<DeckBuilder />} />

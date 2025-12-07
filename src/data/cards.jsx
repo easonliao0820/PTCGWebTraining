@@ -1,314 +1,77 @@
 export const cardData = [
   {
+    id: "1",
     name: "草苗龜",
+    collectionName: "基礎綠系列",
     image: "/assets/cards/M2 001.png",
-    type: "草",
-    attribute: "基礎"
+    hp: 60,
+    energy_type: "草",
+    rarity: "Common",
+    stage: "基礎",
+    number_in_collections: "001/020",
+    info: "這隻寶可夢喜歡曬太陽以獲得能量。",
+    weakness: "火",
+    resistance: "水",
+    retreat_cost: 1,
   },
   {
+    id: "2",
     name: "妙蛙種子",
+    collectionName: "基礎綠系列",
     image: "/assets/cards/M2 002.png",
-    type: "草",
-    attribute: "基礎"
+    hp: 70,
+    energy_type: "草",
+    rarity: "Common",
+    stage: "基礎",
+    number_in_collections: "002/020",
+    info: "背上的種子會隨著時間逐漸成長。",
+    weakness: "火",
+    resistance: "無",
+    retreat_cost: 1,
   },
   {
+    id: "3",
     name: "小火龍",
+    collectionName: "火焰冒險",
     image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
+    hp: 60,
+    energy_type: "火",
+    rarity: "Common",
+    stage: "基礎",
+    number_in_collections: "003/020",
+    info: "尾巴火焰代表生命力，如果熄滅會很危險。",
+    weakness: "水",
+    resistance: "草",
+    retreat_cost: 1,
   },
   {
+    id: "4",
     name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
+    collectionName: "火焰冒險",
+    image: "/assets/cards/M2 004.png",
+    hp: 60,
+    energy_type: "火",
+    rarity: "Common",
+    stage: "基礎",
+    number_in_collections: "004/020",
+    info: "熱情奔放的小火龍，喜歡到處冒險。",
+    weakness: "水",
+    resistance: "草",
+    retreat_cost: 1,
   },
   {
+    id: "5",
     name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 006.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "草苗龜",
-    image: "/assets/cards/M2 001.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "妙蛙種子",
-    image: "/assets/cards/M2 002.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 006.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "草苗龜",
-    image: "/assets/cards/M2 001.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "妙蛙種子",
-    image: "/assets/cards/M2 002.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 006.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "草苗龜",
-    image: "/assets/cards/M2 001.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "妙蛙種子",
-    image: "/assets/cards/M2 002.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 006.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "草苗龜",
-    image: "/assets/cards/M2 001.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "妙蛙種子",
-    image: "/assets/cards/M2 002.png",
-    type: "草",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 003.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 006.png",
-    type: "火",
-    attribute: "基礎"
-  },
-   {
-    name: "小火龍",
-    image: "/assets/cards/M2 007.png",
-    type: "火",
-    attribute: "基礎"
-  },
-  {
-    name: "小火龍",
-    image: "/assets/cards/M2 020.png",
-    type: "火",
-    attribute: "基礎"
-  },
+    collectionName: "火焰冒險",
+    image: "/assets/cards/M2 005.png",
+    hp: 60,
+    energy_type: "火",
+    rarity: "Common",
+    stage: "基礎",
+    number_in_collections: "005/020",
+    info: "火焰會隨心情變化明暗。",
+    weakness: "水",
+    resistance: "草",
+    retreat_cost: 1,
+  }
 ];

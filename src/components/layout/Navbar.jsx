@@ -16,6 +16,8 @@ export default function Navbar() {
         <li><Link className={styles.link}>首頁</Link></li>
         <li><Link className={styles.link}>清單</Link></li>
         <li><Link className={styles.link}>關於</Link></li>
+        <li><Link to={'/login'} className={styles.link}>登入</Link></li>
+        <li><Link to={'/register'} className={styles.link}>註冊</Link></li>
       </ul>
     </nav>
   );
