@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from "axios";
 import { Link } from 'react-router-dom';
 import { FaRegTrashAlt } from "react-icons/fa";
 import styles from '@/styles/pages/deck/deckManager.module.scss';
@@ -6,24 +7,51 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 export default function DeckManager() {
-  const decks = [
-    { id: 1, name: '草系牌組', updatedAt: '2025-07-30' },
-    { id: 2, name: '火系爆擊流', updatedAt: '2025-07-28' },
-    { id: 3, name: '水系控場', updatedAt: '2025-07-25' },
-    { id: 4, name: '雷系速攻', updatedAt: '2025-07-23' },
-    { id: 5, name: '超能干擾', updatedAt: '2025-07-20' },
-    { id: 6, name: '惡系陷阱', updatedAt: '2025-07-19' },
-    { id: 7, name: '鋼鐵防禦', updatedAt: '2025-07-18' },
-    { id: 8, name: '雷系速攻', updatedAt: '2025-07-23' },
-    { id: 9, name: '超能干擾', updatedAt: '2025-07-20' },
-    { id: 10, name: '惡系陷阱', updatedAt: '2025-07-19' },
-    { id: 11, name: '鋼鐵防禦', updatedAt: '2025-07-18' },
-  ];
+
+  const [decks, setDecks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const ITEMS_PER_PAGE = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(decks.length / ITEMS_PER_PAGE);
 
+  const token = localStorage.getItem("token");
+
+  // 🔹 抓使用者牌組
+  async function fetchDecks() {
+    try {
+      setLoading(true);
+      const res = await axios.get("http://localhost:3000/decks", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setDecks(res.data);
+    } catch (err) {
+      console.error("取得卡組失敗", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // 🔹 刪除 API
+  async function deleteDeck(id) {
+    if (!window.confirm("確定要刪除嗎？")) return;
+
+    try {
+      await axios.delete(`http://localhost:3000/decks/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchDecks(); // ⬅ 刪除後重新載入
+    } catch (err) {
+      console.error("刪除失敗", err);
+    }
+  }
+
+  useEffect(() => {
+    fetchDecks();
+  }, []);
+
+  if (loading) return <p>載入中...</p>;
+
+  const totalPages = Math.ceil(decks.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentDecks = decks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
@@ -38,14 +66,20 @@ export default function DeckManager() {
 
         <ul className={styles.deckList}>
           {currentDecks.map((deck) => (
-            <li key={deck.id} className={styles.deckItem}>
+            <li key={deck.deck_id} className={styles.deckItem}>
               <article>
-                <h2>{deck.name}</h2>
-                <p>更新時間：{deck.updatedAt}</p>
+                <h2>{deck.deck_name}</h2>
+                <p>更新時間：{deck.updated_at}</p>
               </article>
+
               <article className={styles.deckActions}>
-                <Link to={`/deck-builder?id=${deck.id}`}>編輯</Link>
-                <FaRegTrashAlt className={styles.trash} />
+                <Link to={`/deck-builder?id=${deck.deck_id}`}>編輯</Link>
+
+                {/* 🔹 綁刪除事件 */}
+                <FaRegTrashAlt
+                  className={styles.trash}
+                  onClick={() => deleteDeck(deck.deck_id)}
+                />
               </article>
             </li>
           ))}

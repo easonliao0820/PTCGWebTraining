@@ -26,24 +26,24 @@ export default function Collection() {
   };
 
   // 🔹 抓搜尋結果
-const fetchCollections = async () => {
-  try {
-    const response = await fetch("http://localhost:3000/collections", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        year: year || undefined,
-        keyword: search || undefined,
-        collection_type: collectionType || undefined,
-      }),
-    });
+  const fetchCollections = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/collection", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          year: year || undefined,
+          keyword: search || undefined,
+          collection_type: collectionType || undefined,
+        }),
+      });
 
-    const data = await response.json();
-    setCollections(data);
-  } catch (err) {
-    console.error("抓搜尋結果失敗:", err);
-  }
-};
+      const data = await response.json();
+      setCollections(data);
+    } catch (err) {
+      console.error("抓搜尋結果失敗:", err);
+    }
+  };
 
   // 🔹 進頁面自動抓下拉選單
   useEffect(() => {
@@ -98,11 +98,14 @@ const fetchCollections = async () => {
           {collections.map((card) => (
             <Link
               key={card.collections_id}
-              to={`/card-search/collection/${card.collections_id}`}
+              to={`/card-search/collection/${card.collection_id}`}
               className={styles.collection}
             >
               <div className={styles.cardHeader}>
-                <p className={styles.cardTitle}>{card.code}</p>
+                <p className={styles.cardTitle}>{card.collection_code}</p>
+                <p className={styles.cardTitle}>
+                  {collectionsTypes.find(type => type.id_collection_type === card.collection_type)?.collection_type_name || '未知類型'}
+                </p>
                 <p className={styles.cardType}>{card.release_date}</p>
               </div>
 
@@ -113,7 +116,8 @@ const fetchCollections = async () => {
               )}
 
               <div className={styles.cardFooter}>
-                <p className={styles.cardTitle}>{card.name_ch}</p>
+                <p className={styles.cardTitle}>{card.collection_name}</p>
+                <p className={styles.cardnum}>數量：{card.card_count}</p>
               </div>
             </Link>
           ))}

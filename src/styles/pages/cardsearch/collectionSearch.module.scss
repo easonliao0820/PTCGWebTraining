@@ -101,12 +101,18 @@
     align-items: center;
     font-size: 10px;
   }
+
   .cardFooter {
+    gap: 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items:end;
     padding-top: 1px;
     font-size: 15px;
+
+    .cardnum {
+      font-size: 10px;
+    }
   }
 }
 
