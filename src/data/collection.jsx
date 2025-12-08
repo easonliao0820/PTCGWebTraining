@@ -5,7 +5,7 @@ export const collectionData = [
     "sales": "擴充包",
     "name": "烈獄狂火X",
     "outDate": "2025-10-09",
-    "imgPath": "/assets/pokemon_images_collection/card_1.png"
+    "imgPath": "/assets/collection_images/card_1.png"
   },
   {
     "collectionId": "02",

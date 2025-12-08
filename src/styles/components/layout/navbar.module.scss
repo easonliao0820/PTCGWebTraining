@@ -30,6 +30,7 @@
 
 .menu {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
   list-style: none;
   margin: 0;
@@ -38,7 +39,23 @@
   li {
     cursor: pointer;
     font-weight: 500;
+    .logoutBtn{
+      background-color: $color-yellow;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      color: #333;
+      text-decoration: none;
+      padding: 5px 10px;
+      font-size: inherit;
+      font-family: inherit;
 
+      &:hover {
+        color:white;
+        background-color: $hover-yellow;
+      }
+    }
     a {
       color: #333;
       text-decoration: none;

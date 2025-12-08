@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"; 
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from 'react-router-dom';
 
 import styles from '@/styles/components/layout/navbar.module.scss';
@@ -15,7 +15,6 @@ export default function Navbar() {
       try {
         const user = jwtDecode(token);
         setUsername(user.username);
-        console.log("Navbar 使用者:", user.username);
       } catch (err) {
         console.error("Token 解析失敗", err);
       }
