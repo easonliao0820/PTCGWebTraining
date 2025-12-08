@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { cardData } from "@/data/cards";
 import { IoMdAdd } from "react-icons/io";
 import styles from "@/styles/pages/cardsearch/cardinfo.module.scss";
 import Navbar from "@/components/layout/Navbar";
@@ -11,28 +10,42 @@ export default function CardDetail() {
   const navigate = useNavigate();
 
   const [card, setCard] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // deck sample data
   const decks = [
     { id: 1, name: "草系牌組", updatedAt: "2025-07-30" },
     { id: 2, name: "火系爆擊流", updatedAt: "2025-07-28" },
     { id: 3, name: "水系控場", updatedAt: "2025-07-25" },
-    { id: 4, name: "雷系速攻", updatedAt: "2025-07-23" },
-    { id: 5, name: "超能干擾", updatedAt: "2025-07-20" },
-    { id: 6, name: "惡系陷阱", updatedAt: "2025-07-19" },
-    { id: 7, name: "鋼鐵防禦", updatedAt: "2025-07-18" },
-    { id: 8, name: "雷系速攻", updatedAt: "2025-07-23" },
-    { id: 9, name: "超能干擾", updatedAt: "2025-07-20" },
-    { id: 10, name: "惡系陷阱", updatedAt: "2025-07-19" },
-    { id: 11, name: "鋼鐵防禦", updatedAt: "2025-07-18" },
+    // ...其他 deck
   ];
 
-  const currentDecks = decks;
-
   useEffect(() => {
-    const foundCard = cardData.find((c) => String(c.id) === String(cardId));
-    setCard(foundCard || null);
+    const fetchCard = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`http://localhost:3000/cards/${cardId}`);
+        if (!res.ok) throw new Error("找不到卡牌");
+        const data = await res.json();
+        setCard(data);
+      } catch (err) {
+        console.error(err);
+        setCard(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCard();
   }, [cardId]);
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <p>讀取中...</p>
+      </div>
+    );
+  }
 
   if (!card) {
     return (
@@ -55,22 +68,19 @@ export default function CardDetail() {
 
         <div className={styles.content}>
           <div className={styles.imageArea}>
-            <img className={styles.image} src={card.image} alt={card.name} />
+            <img className={styles.image} src={card.image_url} alt={card.name} />
           </div>
 
           <div className={styles.info}>
-            <h1 className={styles.name}>
-              {card.name}
-              {card.special_card_type && (
-                <span className={styles.special}>
-                  {card.special_card_type}
-                </span>
-              )}
-            </h1>
-
-            <h2 className={styles.collection}>系列：{card.collectionName}</h2>
-
             <article className={styles.details}>
+              <h1 className={styles.name}>
+                {card.name}
+                {card.special_card_type && (
+                  <span className={styles.special}>{card.special_card_type}</span>
+                )}
+              </h1>
+
+              <h2 className={styles.collection}>系列：{card.name_ch}</h2>
               <table className={styles.meta}>
                 <tbody>
                   <tr>
@@ -83,26 +93,19 @@ export default function CardDetail() {
                       <p>HP：{card.hp}</p>
                     </td>
                     <td>
-                      <p>屬性：{card.energy_type}</p>
+                      <p>屬性：{card.energy_type_ch}</p>
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <p>稀有度：{card.rarity}</p>
+                      <p>稀有度：{card.rarity_en}</p>
                     </td>
                     <td>
-                      <p>卡號：{card.number_in_collections}</p>
+                      <p>卡號：{card.card_id}</p>
                     </td>
                   </tr>
                 </tbody>
               </table>
-
-              <div className={styles.block}>
-                <h3>弱點 / 抗性 / 退場費用</h3>
-                <p>弱點：{card.weakness || "無"}</p>
-                <p>抗性：{card.resistance || "無"}</p>
-                <p>退場費用：{card.retreat_cost}</p>
-              </div>
             </article>
 
             <div className={styles.infopokemon}>
@@ -113,7 +116,7 @@ export default function CardDetail() {
 
           <div className={styles.list}>
             <ul className={styles.deckList}>
-              {currentDecks.map((deck) => (
+              {decks.map((deck) => (
                 <li key={deck.id} className={styles.deckItem}>
                   <article>
                     <h2>{deck.name}</h2>
