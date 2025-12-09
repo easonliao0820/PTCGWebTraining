@@ -1,75 +1,121 @@
 import { useParams } from "react-router-dom";
-import { useState } from 'react';
-import { cardData } from '@/data/cards';
-import { collectionData } from '@/data/collection';
-import { stageData } from '@/data/stage';
+import { useEffect, useState } from "react";
 import styles from '@/styles/pages/cardsearch/allCardsSearch.module.scss';
 import CardItem from '@/components/common/CardItem';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 export default function DeckBuilder() {
-  const { collectionId } = useParams(); 
+
+  const { collectionId } = useParams();
+
+  // meta options
+  const [energy, setEnergy] = useState([]);
+  const [rarity, setRarityList] = useState([]);
+  const [specal, setSpecal] = useState([]);
+  const [collections, setCollections] = useState([]);
+
+  // cards
+  const [cards, setCards] = useState([]);
+
+  // filters (用數字 id，預設 0 表示全部)
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('所有類別');
-  const [attribute, setAttribute] = useState('所有屬性');
-  const [collection, setCollection] = useState(collectionId||'所有彈數');
-  const [stage, setStage] = useState('所有階段');
-  const [rarity, setRarity] = useState('稀有度');
-  const [cardId, setCardId] = useState('');
+  const [attribute, setAttribute] = useState(0);
+  const [collection, setCollection] = useState(collectionId || 0);
+  const [rarityFilter, setRarity] = useState(0);
+  const [category, setCategory] = useState(0);
+
   const [hp, setHp] = useState('');
+
+  // paging
   const [currentPage, setCurrentPage] = useState(1);
   const cardsPerPage = 50;
-  const categories = ['所有類別', ...new Set(cardData.map(card => card.type || '未知'))];
-  const attributes = ['所有屬性', ...new Set(cardData.map(card => card.attribute || '未知'))];
-  const collections = ['所有彈數', ...new Set(collectionData.map(card => card.name))];
-  const stages = ['所有階段', ...new Set(stageData.map(stage => stage.name))];
-  const raritys = ['所有稀有度', ...new Set(stageData.map(stage => stage.name))];
 
-  const filteredCards = cardData.filter(card =>
-    card.name.toLowerCase().includes(search.toLowerCase()) &&
-    (category === '所有類別' || card.type === category) &&
-    (attribute === '所有屬性' || card.attribute === attribute)
-  );
-  const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
+  // 取得 dropdown meta（/refs）
+  useEffect(() => {
+    const fetchMeta = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/refs");
+        const data = await res.json();
+
+        setEnergy([{ energy_id: 0, energy_ch: '所有屬性' }, ...data.energy]);
+        setRarityList([{ rarity_id: 0, rarity_en: '所有稀有度' }, ...data.rarity]);
+        setSpecal([{ specal_id: 0, speca_type_ch: '所有類型' }, ...data.specal]);
+        setCollections([{ collections_id: 0, name_ch: '所有彈數' }, ...data.collections]);
+      } catch (err) {
+        console.error("Meta fetch failed:", err);
+      }
+    };
+
+    fetchMeta();
+  }, []);
+
+  // 初次載入自動抓卡片
+  useEffect(() => {
+    fetchCards();
+  }, []); // 空陣列 → 只在 mount 執行一次
+
+  // 呼叫後端取卡片
+  const fetchCards = async () => {
+    let url = "http://localhost:3000/cards?";
+
+    if (search) url += `q=${search}&`;
+    if (attribute != 0) url += `energy=${attribute}&`;
+    if (rarityFilter != 0) url += `rarity=${rarityFilter}&`;
+    if (category != 0) url += `specal=${category}&`;
+    if (collection != 0) url += `collection=${collection}&`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    setCards(data);
+    setCurrentPage(1);
+  };
+
+  // Paging
+  const totalPages = Math.ceil(cards.length / cardsPerPage);
   const startIndex = (currentPage - 1) * cardsPerPage;
-  const currentCards = filteredCards.slice(startIndex, startIndex + cardsPerPage);
+  const currentCards = cards.slice(startIndex, startIndex + cardsPerPage);
 
   return (
     <>
       <Navbar />
       <div className={styles.container}>
         <h1>Card Search</h1>
+
+        {/* ===== Filter Selects ===== */}
         <div className={styles.inputArea}>
+
+          {/* 類型 (specal) */}
           <select value={category} onChange={e => setCategory(e.target.value)} className={styles.search}>
-            {categories.map((cat, idx) => (
-              <option key={idx} value={cat}>{cat}</option>
+            {specal.map((cat) => (
+              <option key={cat.specal_id} value={cat.specal_id}>{cat.speca_type_ch}</option>
             ))}
           </select>
-
+          {/* 彈數 */}
           <select value={collection} onChange={e => setCollection(e.target.value)} className={styles.search}>
-            {collections.map((col, idx) => (
-              <option key={idx} value={col}>{col}</option>
+            {collections.map((col) => (
+              <option key={col.collections_id} value={col.collections_id}>{col.name_ch}</option>
             ))}
           </select>
 
+          {/* 屬性 */}
           <select value={attribute} onChange={e => setAttribute(e.target.value)} className={styles.search}>
-            {attributes.map((attr, idx) => (
-              <option key={idx} value={attr}>{attr}</option>
+            {energy.map((attr) => (
+              <option key={attr.energy_id} value={attr.energy_id}>{attr.energy_ch}</option>
             ))}
           </select>
-          <select value={stage} onChange={e => setStage(e.target.value)} className={styles.search}>
-            {stages.map((sta, idx) => (
-              <option key={idx} value={sta}>{sta}</option>
+
+          {/* 稀有度 */}
+          <select value={rarityFilter} onChange={e => setRarity(e.target.value)} className={styles.search}>
+            {rarity.map((ra) => (
+              <option key={ra.rarity_id} value={ra.rarity_id}>{ra.rarity_en}</option>
             ))}
           </select>
-          <select value={rarity} onChange={e => setRarity(e.target.value)} className={styles.search}>
-            {raritys.map((sta, idx) => (
-              <option key={idx} value={sta}>{sta}</option>
-            ))}
-          </select>
+
         </div>
 
+        {/* ===== text inputs ===== */}
         <div className={styles.inputArea}>
           <input
             type="text"
@@ -78,27 +124,21 @@ export default function DeckBuilder() {
             onChange={e => setSearch(e.target.value)}
             className={styles.search}
           />
+
           <input
-            type="text"
-            placeholder="Search cards id..."
-            value={cardId}
-            onChange={e => setCardId(e.target.value)}
-            className={styles.search}
-          />
-          <input
-            className={styles.search}
             type="number"
-            placeholder="HP血量 （例如：120）"
+            placeholder="最低 HP （例如：120）"
             value={hp}
             onChange={(e) => setHp(e.target.value)}
+            className={styles.search}
           />
-
-          <button className={styles.searchButton}>搜尋</button>
+          <button onClick={fetchCards} className={styles.searchButton}>搜尋</button>
         </div>
+
+        {/* ===== Cards Display ===== */}
         <section className={styles.layout}>
           <article className={styles.card}>
-            <h2>All card</h2>
-
+            <h2>All cards</h2>
             <div className={styles.cardList}>
               {currentCards.map((card, idx) => (
                 <CardItem key={idx} collectionId={collectionId} card={card} />
@@ -107,6 +147,7 @@ export default function DeckBuilder() {
           </article>
         </section>
 
+        {/* ===== Pagination ===== */}
         <div className={styles.pagination}>
           <button
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -132,6 +173,7 @@ export default function DeckBuilder() {
             下一頁
           </button>
         </div>
+
       </div>
       <Footer />
     </>

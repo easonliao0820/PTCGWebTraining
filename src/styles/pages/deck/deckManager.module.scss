@@ -69,7 +69,14 @@
                     background-color: white;
                 }
             }
-
+            .listbtn{
+                background-color: $color-yellow;
+                border: 3px solid $color-yellow;
+                &:hover {
+                    color: $hover-yellow;
+                    background-color: white;
+                }
+            }
             .trash {
                 padding: 5px;
                 color: $color-red;

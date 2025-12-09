@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { cardData } from "@/data/cards";
 import { IoMdAdd } from "react-icons/io";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import styles from "@/styles/pages/cardsearch/cardinfo.module.scss";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -11,28 +12,96 @@ export default function CardDetail() {
   const navigate = useNavigate();
 
   const [card, setCard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [decks, setDecks] = useState([]);
+  const token = localStorage.getItem("token");
 
-  // deck sample data
-  const decks = [
-    { id: 1, name: "草系牌組", updatedAt: "2025-07-30" },
-    { id: 2, name: "火系爆擊流", updatedAt: "2025-07-28" },
-    { id: 3, name: "水系控場", updatedAt: "2025-07-25" },
-    { id: 4, name: "雷系速攻", updatedAt: "2025-07-23" },
-    { id: 5, name: "超能干擾", updatedAt: "2025-07-20" },
-    { id: 6, name: "惡系陷阱", updatedAt: "2025-07-19" },
-    { id: 7, name: "鋼鐵防禦", updatedAt: "2025-07-18" },
-    { id: 8, name: "雷系速攻", updatedAt: "2025-07-23" },
-    { id: 9, name: "超能干擾", updatedAt: "2025-07-20" },
-    { id: 10, name: "惡系陷阱", updatedAt: "2025-07-19" },
-    { id: 11, name: "鋼鐵防禦", updatedAt: "2025-07-18" },
-  ];
-
-  const currentDecks = decks;
-
+  // 🔹 取得卡牌資料
   useEffect(() => {
-    const foundCard = cardData.find((c) => String(c.id) === String(cardId));
-    setCard(foundCard || null);
+    const fetchCard = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`http://localhost:3000/cards/${cardId}`);
+        setCard(res.data);
+      } catch (err) {
+        console.error(err);
+        setCard(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCard();
   }, [cardId]);
+
+  // 🔹 取得使用者 Deck 列表
+  useEffect(() => {
+    const fetchDecks = async () => {
+      if (!token) return;
+      try {
+        const user = jwtDecode(token);
+        const user_id = user.user_id;
+
+        const res = await axios.get("http://localhost:3000/decks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // 只拿自己的 Deck
+        const userDecks = res.data.filter(d => d.user_id === user_id);
+        setDecks(userDecks);
+      } catch (err) {
+        console.error("抓取 Deck 失敗", err);
+      }
+    };
+    fetchDecks();
+  }, [token]);
+
+// 🔹 將卡片加入 Deck（直接呼叫 Mongo API）
+const addToDeck = async (deck_id) => {
+  if (!token) {
+    alert("請先登入");
+    return;
+  }
+
+  try {
+    const user = jwtDecode(token);
+    const author_id = user.user_id;
+
+    await axios.post(
+      "http://localhost:3001/mongo/decks/add-cards",
+      {
+        author_id,
+        deck_id,
+        cards: [
+          {
+            ...card,
+            card_id: String(card.card_id) // 確保 card_id 是字串
+          }
+        ]
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    alert(`卡牌「${card.name}」已成功加入 Deck！`);
+
+    // ⭐ 加入成功 ➜ 導向頁面 /deck-builder/:deckId
+    navigate(`/deck-builder/${deck_id}`);
+
+  } catch (err) {
+    console.error("加入 Deck 失敗", err);
+    alert("加入 Deck 失敗");
+  }
+};
+
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <p>讀取中...</p>
+      </div>
+    );
+  }
 
   if (!card) {
     return (
@@ -55,54 +124,34 @@ export default function CardDetail() {
 
         <div className={styles.content}>
           <div className={styles.imageArea}>
-            <img className={styles.image} src={card.image} alt={card.name} />
+            <img className={styles.image} src={card.image_url} alt={card.name} />
           </div>
 
           <div className={styles.info}>
-            <h1 className={styles.name}>
-              {card.name}
-              {card.special_card_type && (
-                <span className={styles.special}>
-                  {card.special_card_type}
-                </span>
-              )}
-            </h1>
-
-            <h2 className={styles.collection}>系列：{card.collectionName}</h2>
-
             <article className={styles.details}>
+              <h1 className={styles.name}>
+                {card.name}
+                {card.special_card_type && (
+                  <span className={styles.special}>{card.special_card_type}</span>
+                )}
+              </h1>
+
+              <h2 className={styles.collection}>系列：{card.name_ch}</h2>
               <table className={styles.meta}>
                 <tbody>
                   <tr>
-                    <td>
-                      <p>階段：{card.stage}</p>
-                    </td>
+                    <td>階段：{card.stage}</td>
                   </tr>
                   <tr>
-                    <td>
-                      <p>HP：{card.hp}</p>
-                    </td>
-                    <td>
-                      <p>屬性：{card.energy_type}</p>
-                    </td>
+                    <td>HP：{card.hp}</td>
+                    <td>屬性：{card.energy_type_ch}</td>
                   </tr>
                   <tr>
-                    <td>
-                      <p>稀有度：{card.rarity}</p>
-                    </td>
-                    <td>
-                      <p>卡號：{card.number_in_collections}</p>
-                    </td>
+                    <td>稀有度：{card.rarity_en}</td>
+                    <td>卡號：{card.card_id}</td>
                   </tr>
                 </tbody>
               </table>
-
-              <div className={styles.block}>
-                <h3>弱點 / 抗性 / 退場費用</h3>
-                <p>弱點：{card.weakness || "無"}</p>
-                <p>抗性：{card.resistance || "無"}</p>
-                <p>退場費用：{card.retreat_cost}</p>
-              </div>
             </article>
 
             <div className={styles.infopokemon}>
@@ -113,14 +162,17 @@ export default function CardDetail() {
 
           <div className={styles.list}>
             <ul className={styles.deckList}>
-              {currentDecks.map((deck) => (
-                <li key={deck.id} className={styles.deckItem}>
+              {decks.map(deck => (
+                <li key={deck.deck_id} className={styles.deckItem}>
                   <article>
-                    <h2>{deck.name}</h2>
-                    <p>更新時間：{deck.updatedAt}</p>
+                    <h2>{deck.deck_name}</h2>
+                    <p>更新時間：{deck.created_at}</p>
                   </article>
                   <article className={styles.deckActions}>
-                    <IoMdAdd className={styles.additem} />
+                    <IoMdAdd
+                      className={styles.additem}
+                      onClick={() => addToDeck(deck.deck_id)}
+                    />
                   </article>
                 </li>
               ))}
