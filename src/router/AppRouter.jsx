@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import GameRoom from '../pages/GameRoom';
 import DeckManager from '@/pages/deck/DeckManager';
 import DeckBuilder from '@/pages/deck/AddDeck';
+import List from '@/pages/deck/List';
 import CollectionSearch from '@/pages/cardsearch/collection';
 import CardSearchMain from '@/pages/cardsearch/index';
 import CardInfo from '@/pages/cardsearch/cardInfo';
@@ -20,6 +21,7 @@ export default function AppRouter() {
         <Route path="/deck-manager" element={<DeckManager />} />
         <Route path="/deck-builder" element={<DeckBuilder />} />
         <Route path="/deck-builder/:deckId" element={<DeckBuilder />} />
+        <Route path="/deck-list/:deckId" element={<List />} />
         <Route path="/card-search/collection" element={<CollectionSearch />} />
         <Route path="/card-search/" element={<CardSearchMain />} />
         <Route path="/card-search/collection/:collectionId" element={<CardSearchMain />} />
