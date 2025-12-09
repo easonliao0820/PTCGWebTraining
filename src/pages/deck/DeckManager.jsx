@@ -122,6 +122,7 @@ export default function DeckManager() {
                 <p>更新時間：{deck.created_at}</p>
               </article>
               <article className={styles.deckActions}>
+                <Link className={styles.listbtn} to={`/deck-builder/${deck.deck_id}`}>產生清單</Link>
                 <Link to={`/deck-builder/${deck.deck_id}`}>編輯</Link>
                 <FaRegTrashAlt
                   className={styles.trash}

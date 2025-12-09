@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -10,17 +11,16 @@ import Footer from '@/components/layout/Footer';
 import styles from '@/styles/pages/deck/addDeck.module.scss';
 
 export default function AddDeckBuild() {
-  const { deckId } = useParams(); // 🔹 從 URL 取得 deckId
+  const navigate = useNavigate();
+  const { deckId } = useParams(); // 從 URL 取得 deckId
   const [search, setSearch] = useState('');
   const [deckName, setDeckName] = useState('');
   const [deck, setDeck] = useState([]);
 
   const [attributes, setAttributes] = useState([]);
   const [rarities, setRarities] = useState([]);
-
   const [attribute, setAttribute] = useState({ energy_id: 0, energy_ch: '所有屬性' });
   const [rarity, setRarity] = useState({ rarity_id: 0, rarity_en: '所有稀有度' });
-
   const [allCards, setAllCards] = useState([]);
 
   // 🔹 初始抓下拉資料和所有卡牌
@@ -29,7 +29,6 @@ export default function AddDeckBuild() {
       try {
         const res = await axios.get('http://localhost:3000/refs');
         const { energy, rarity } = res.data;
-
         setAttributes([{ energy_id: 0, energy_ch: '所有屬性' }, ...energy]);
         setRarities([{ rarity_id: 0, rarity_en: '所有稀有度' }, ...rarity]);
 
@@ -39,11 +38,10 @@ export default function AddDeckBuild() {
         console.error(err);
       }
     }
-
     fetchReference();
   }, []);
 
-  // 🔹 如果 deckId 存在，抓取舊 Deck
+  // 🔹 如果 deckId 存在，抓取舊 Deck (MongoDB)
   useEffect(() => {
     async function fetchDeck() {
       if (!deckId) return;
@@ -51,7 +49,7 @@ export default function AddDeckBuild() {
         const res = await axios.get('http://localhost:3001/mongo/decks', {
           params: { deck_id: deckId }
         });
-        const deckData = res.data[0]; // 回傳陣列
+        const deckData = res.data[0];
         if (!deckData) return;
         setDeckName(deckData.deck_name || "");
         setDeck(deckData.cards || []);
@@ -59,7 +57,6 @@ export default function AddDeckBuild() {
         console.error("抓取舊 Deck 失敗:", err);
       }
     }
-
     fetchDeck();
   }, [deckId]);
 
@@ -78,11 +75,10 @@ export default function AddDeckBuild() {
     }
   };
 
-  // 🔹 儲存或更新 Deck
+  // 🔹 儲存或更新 Deck (MySQL + MongoDB)
   const handleSaveDeck = async () => {
     const token = localStorage.getItem("token");
     if (!token) { alert("請先登入"); return; }
-
     const user = jwtDecode(token);
     const user_id = user.user_id;
 
@@ -90,7 +86,15 @@ export default function AddDeckBuild() {
 
     try {
       if (deckId) {
-        // 更新舊 Deck
+        // ✅ 更新舊 Deck
+        // 1. 更新 MySQL 名稱
+        await axios.put(
+          `http://localhost:3000/decks/${deckId}`,
+          { deck_name: deckName },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        // 2. 更新 MongoDB 名稱與卡牌
         await axios.put(
           'http://localhost:3001/mongo/decks',
           {
@@ -101,17 +105,20 @@ export default function AddDeckBuild() {
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );
+
         alert("Deck 更新成功！");
       } else {
-        // 新增 Deck (MySQL + MongoDB)
+        // ✅ 新增 Deck
         const res = await axios.post(
           "http://localhost:3000/decks",
           { deck_name: deckName, user_id },
           { headers: { Authorization: `Bearer ${token}` } }
         );
+
         const { deck_id } = res.data;
         if (!deck_id) throw new Error("無法取得 MySQL Deck ID");
 
+        // 建立 MongoDB Deck
         await axios.post(
           "http://localhost:3001/mongo/decks",
           {
@@ -123,10 +130,10 @@ export default function AddDeckBuild() {
           },
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        alert("Deck 建立成功！");
-      }
 
-      // 🔹 資料保留在畫面，不清空
+        alert("Deck 建立成功！");
+        navigate(`/deck-manager`);
+      }
     } catch (err) {
       console.error(err);
       alert("Deck 儲存失敗");
@@ -151,7 +158,7 @@ export default function AddDeckBuild() {
       <div className={styles.container}>
         <h1>Deck Builder</h1>
 
-        {/* 新增/編輯 Deck 名稱 */}
+        {/* Deck 名稱 */}
         <div className={styles.AddDeck}>
           <h4>清單名稱 :</h4>
           <input

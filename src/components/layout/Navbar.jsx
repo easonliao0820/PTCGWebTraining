@@ -35,8 +35,8 @@ export default function Navbar() {
       </Link>
       <ul className={styles.menu}>
         <li><Link className={styles.link} to={'/'}>首頁</Link></li>
-        <li><Link className={styles.link} to={'/list'}>清單</Link></li>
-        <li><Link className={styles.link} to={'/about'}>關於</Link></li>
+        <li><Link className={styles.link} to={'/deck-manager'}>清單</Link></li>
+        <li><Link className={styles.link} to={'/card-search'}>卡牌搜尋</Link></li>
 
         {username ? (
           <>

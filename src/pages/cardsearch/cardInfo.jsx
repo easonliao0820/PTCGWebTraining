@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import axios from "axios";
@@ -44,7 +44,8 @@ export default function CardDetail() {
         const res = await axios.get("http://localhost:3000/decks", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        // 過濾出自己的 Deck
+
+        // 只拿自己的 Deck
         const userDecks = res.data.filter(d => d.user_id === user_id);
         setDecks(userDecks);
       } catch (err) {
@@ -54,21 +55,45 @@ export default function CardDetail() {
     fetchDecks();
   }, [token]);
 
-  // 🔹 將卡片加入 Deck（前端暫存，或可呼叫 API 儲存）
-  const addToDeck = async (deck_id) => {
-    if (!token) {
-      alert("請先登入");
-      return;
-    }
-    try {
-      // 可以選擇直接呼叫後端 API 儲存到 Deck
-      // 例如 axios.post(`/mongo/decks/addCard`, { deck_id, card_id: card.card_id })
-      alert(`卡牌 ${card.name} 已加入 Deck ${deck_id}（前端暫存）`);
-    } catch (err) {
-      console.error("加入 Deck 失敗", err);
-      alert("加入 Deck 失敗");
-    }
-  };
+// 🔹 將卡片加入 Deck（直接呼叫 Mongo API）
+const addToDeck = async (deck_id) => {
+  if (!token) {
+    alert("請先登入");
+    return;
+  }
+
+  try {
+    const user = jwtDecode(token);
+    const author_id = user.user_id;
+
+    await axios.post(
+      "http://localhost:3001/mongo/decks/add-cards",
+      {
+        author_id,
+        deck_id,
+        cards: [
+          {
+            ...card,
+            card_id: String(card.card_id) // 確保 card_id 是字串
+          }
+        ]
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    );
+
+    alert(`卡牌「${card.name}」已成功加入 Deck！`);
+
+    // ⭐ 加入成功 ➜ 導向頁面 /deck-builder/:deckId
+    navigate(`/deck-builder/${deck_id}`);
+
+  } catch (err) {
+    console.error("加入 Deck 失敗", err);
+    alert("加入 Deck 失敗");
+  }
+};
+
 
   if (loading) {
     return (
