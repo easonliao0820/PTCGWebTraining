@@ -19,6 +19,7 @@ export default function AppRouter() {
         <Route path="/game" element={<GameRoom />} />
         <Route path="/deck-manager" element={<DeckManager />} />
         <Route path="/deck-builder" element={<DeckBuilder />} />
+        <Route path="/deck-builder/:deckId" element={<DeckBuilder />} />
         <Route path="/card-search/collection" element={<CollectionSearch />} />
         <Route path="/card-search/" element={<CardSearchMain />} />
         <Route path="/card-search/collection/:collectionId" element={<CardSearchMain />} />

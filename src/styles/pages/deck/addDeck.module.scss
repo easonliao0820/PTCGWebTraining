@@ -33,8 +33,14 @@
       background-color: #79be38;
     }
   }
+  a{
+    width: fit-content;
+
+    text-decoration: none;
+  }
   .cancel{
     @extend %btn;
+    text-align: center;
     background-color: #af814c;
     &:hover {
       background-color: #a04545;

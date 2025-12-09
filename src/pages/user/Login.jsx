@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import bannerImage from '@img/turtwig.png';
 import styles from "@/styles/pages/user/login.module.scss";
@@ -24,14 +24,15 @@ export default function Login() {
         // 存 token
         localStorage.setItem("token", data.token);
 
-        // 解析 token 拿 username
+        // 解析 token 拿 username 和 user_id
         const payload = JSON.parse(atob(data.token.split(".")[1]));
         const loggedUser = payload.username;
+        const userId = payload.user_id; // 後端 JWT 必須有 user_id
         localStorage.setItem("username", loggedUser);
-        console.log("登入使用者:", loggedUser);
+        localStorage.setItem("user_id", userId);
 
+        console.log("登入使用者:", loggedUser, "ID:", userId);
         navigate("/");
-
       } else {
         alert(data.error || "登入失敗！");
       }

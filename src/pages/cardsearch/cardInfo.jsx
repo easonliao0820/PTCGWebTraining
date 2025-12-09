@@ -1,6 +1,8 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; 
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import styles from "@/styles/pages/cardsearch/cardinfo.module.scss";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -11,23 +13,16 @@ export default function CardDetail() {
 
   const [card, setCard] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [decks, setDecks] = useState([]);
+  const token = localStorage.getItem("token");
 
-  // deck sample data
-  const decks = [
-    { id: 1, name: "草系牌組", updatedAt: "2025-07-30" },
-    { id: 2, name: "火系爆擊流", updatedAt: "2025-07-28" },
-    { id: 3, name: "水系控場", updatedAt: "2025-07-25" },
-    // ...其他 deck
-  ];
-
+  // 🔹 取得卡牌資料
   useEffect(() => {
     const fetchCard = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:3000/cards/${cardId}`);
-        if (!res.ok) throw new Error("找不到卡牌");
-        const data = await res.json();
-        setCard(data);
+        const res = await axios.get(`http://localhost:3000/cards/${cardId}`);
+        setCard(res.data);
       } catch (err) {
         console.error(err);
         setCard(null);
@@ -35,9 +30,45 @@ export default function CardDetail() {
         setLoading(false);
       }
     };
-
     fetchCard();
   }, [cardId]);
+
+  // 🔹 取得使用者 Deck 列表
+  useEffect(() => {
+    const fetchDecks = async () => {
+      if (!token) return;
+      try {
+        const user = jwtDecode(token);
+        const user_id = user.user_id;
+
+        const res = await axios.get("http://localhost:3000/decks", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // 過濾出自己的 Deck
+        const userDecks = res.data.filter(d => d.user_id === user_id);
+        setDecks(userDecks);
+      } catch (err) {
+        console.error("抓取 Deck 失敗", err);
+      }
+    };
+    fetchDecks();
+  }, [token]);
+
+  // 🔹 將卡片加入 Deck（前端暫存，或可呼叫 API 儲存）
+  const addToDeck = async (deck_id) => {
+    if (!token) {
+      alert("請先登入");
+      return;
+    }
+    try {
+      // 可以選擇直接呼叫後端 API 儲存到 Deck
+      // 例如 axios.post(`/mongo/decks/addCard`, { deck_id, card_id: card.card_id })
+      alert(`卡牌 ${card.name} 已加入 Deck ${deck_id}（前端暫存）`);
+    } catch (err) {
+      console.error("加入 Deck 失敗", err);
+      alert("加入 Deck 失敗");
+    }
+  };
 
   if (loading) {
     return (
@@ -84,25 +115,15 @@ export default function CardDetail() {
               <table className={styles.meta}>
                 <tbody>
                   <tr>
-                    <td>
-                      <p>階段：{card.stage}</p>
-                    </td>
+                    <td>階段：{card.stage}</td>
                   </tr>
                   <tr>
-                    <td>
-                      <p>HP：{card.hp}</p>
-                    </td>
-                    <td>
-                      <p>屬性：{card.energy_type_ch}</p>
-                    </td>
+                    <td>HP：{card.hp}</td>
+                    <td>屬性：{card.energy_type_ch}</td>
                   </tr>
                   <tr>
-                    <td>
-                      <p>稀有度：{card.rarity_en}</p>
-                    </td>
-                    <td>
-                      <p>卡號：{card.card_id}</p>
-                    </td>
+                    <td>稀有度：{card.rarity_en}</td>
+                    <td>卡號：{card.card_id}</td>
                   </tr>
                 </tbody>
               </table>
@@ -116,14 +137,17 @@ export default function CardDetail() {
 
           <div className={styles.list}>
             <ul className={styles.deckList}>
-              {decks.map((deck) => (
-                <li key={deck.id} className={styles.deckItem}>
+              {decks.map(deck => (
+                <li key={deck.deck_id} className={styles.deckItem}>
                   <article>
-                    <h2>{deck.name}</h2>
-                    <p>更新時間：{deck.updatedAt}</p>
+                    <h2>{deck.deck_name}</h2>
+                    <p>更新時間：{deck.created_at}</p>
                   </article>
                   <article className={styles.deckActions}>
-                    <IoMdAdd className={styles.additem} />
+                    <IoMdAdd
+                      className={styles.additem}
+                      onClick={() => addToDeck(deck.deck_id)}
+                    />
                   </article>
                 </li>
               ))}

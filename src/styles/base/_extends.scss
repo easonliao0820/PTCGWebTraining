@@ -25,7 +25,7 @@
     color: #fcd34d;
 }
 %btn {
-  padding: 0.5rem 2rem;
+  padding: 10px 15px;
   color: white;
   border-radius: 8px;
   border: none;
@@ -33,6 +33,7 @@
   transition: 0.2s ease;
   transform: scale(1);
   min-width: 100px;
+  font-size: 12px;
 
   &:hover {
     transform: scale(1.05);
